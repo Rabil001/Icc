@@ -1,6 +1,6 @@
+import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,10 +27,9 @@ export default function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
         <Header />
-        <main className="min-h-screen pt-16 bg-white">
+        <main className="min-h-screen pt-16 bg-white overflow-x-hidden">
           {children}
         </main>
-        {/* Footer could go here later */}
       </body>
     </html>
   );
