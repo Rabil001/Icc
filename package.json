@@ -1,6 +1,6 @@
 {
   "name": "icc-projet",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -25,6 +25,7 @@
     "@types/react-dom": "^18",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.17",
     "eslint": "^8",
     "eslint-config-next": "14.2.15"
   }
