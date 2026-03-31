@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        boldonse: ['Boldonse', 'system-ui'],
-        squada: ['"Squada One"', 'sans-serif'],
+        sans: ["var(--font-manrope)", "var(--font-inter)", "sans-serif"],
+        manrope: ["var(--font-manrope)", "sans-serif"],
       },
       colors: {
         primary: {

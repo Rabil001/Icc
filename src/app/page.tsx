@@ -8,43 +8,33 @@ import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
 export default function Home() {
-  const supabase = createClient();
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
 
   useEffect(() => {
+    // Version simplifiée qui ne bloque pas le rendu
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-      setLoading(false);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUser(user);
+      } catch (e) {
+        // Silencieux
+      }
     };
     checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    setUser(null);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full animate-fade-in">
       {/* SECTION DYNAMIQUE : HERO VISITEUR VS DASHBOARD MEMBRE */}
       {user ? (
         /* --- DASHBOARD POUR L'UTILISATEUR CONNECTÉ --- */
-        <section className="bg-white pt-24 pb-12">
+        <section className="bg-white pt-32 pb-12">
           <div className="container mx-auto px-6">
             <div className="bg-surface-alt rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-gray-100">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -72,25 +62,25 @@ export default function Home() {
                   <div className="w-12 h-12 bg-blue-50 text-primary rounded-2xl flex items-center justify-center mb-3">
                     <Play size={24} />
                   </div>
-                  <span className="font-bold text-gray-700">Continuer</span>
+                  <span className="font-bold text-gray-700 font-manrope">Continuer</span>
                 </Link>
                 <Link href="/evenements" className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-secondary/10">
                   <div className="w-12 h-12 bg-amber-50 text-secondary rounded-2xl flex items-center justify-center mb-3">
                     <Calendar size={24} />
                   </div>
-                  <span className="font-bold text-gray-700">Mes Événements</span>
+                  <span className="font-bold text-gray-700 font-manrope">Mes Événements</span>
                 </Link>
                 <Link href="/dons" className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-red-100">
                   <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-3">
                     <Heart size={24} />
                   </div>
-                  <span className="font-bold text-gray-700">Dons</span>
+                  <span className="font-bold text-gray-700 font-manrope">Dons</span>
                 </Link>
                 <button className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-green-100">
                   <div className="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-3">
                     <UserIcon size={24} />
                   </div>
-                  <span className="font-bold text-gray-700">Mon Groupe</span>
+                  <span className="font-bold text-gray-700 font-manrope">Mon Groupe</span>
                 </button>
               </div>
             </div>
@@ -113,13 +103,13 @@ export default function Home() {
               </div>
           </section>
 
-          {/* SECTION IDENTITÉ : PRÉSENTATION, MISSION, VISION (Nouveau) */}
+          {/* SECTION IDENTITÉ */}
           <section className="py-24 bg-white relative z-20">
             <div className="container mx-auto px-6">
               <div className="flex flex-col lg:flex-row gap-16 items-center">
                 <div className="w-full lg:w-1/2">
-                  <span className="text-secondary font-black uppercase tracking-[0.3em] text-sm mb-4 block font-boldonse">Qui sommes-nous ?</span>
-                  <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 tracking-tighter leading-none font-boldonse uppercase">
+                  <span className="text-secondary font-black uppercase tracking-[0.3em] text-sm mb-4 block">Qui sommes-nous ?</span>
+                  <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 tracking-tighter leading-none uppercase">
                     Impact Centre <br /> <span className="text-primary">Chrétien</span>
                   </h2>
                   <p className="text-xl text-gray-600 mb-10 leading-relaxed font-medium">
@@ -130,7 +120,7 @@ export default function Home() {
                     <div className="space-y-4">
                       <div className="flex items-center space-x-3 text-primary">
                         <Target size={24} />
-                        <h4 className="font-black uppercase tracking-widest text-sm font-boldonse">Mission</h4>
+                        <h4 className="font-black uppercase tracking-widest text-sm">Mission</h4>
                       </div>
                       <p className="text-gray-500 text-sm leading-relaxed">
                         Évangéliser, restaurer et enseigner les principes du Royaume de Dieu.
@@ -139,7 +129,7 @@ export default function Home() {
                     <div className="space-y-4">
                       <div className="flex items-center space-x-3 text-secondary">
                         <Eye size={24} />
-                        <h4 className="font-black uppercase tracking-widest text-sm font-boldonse">Vision</h4>
+                        <h4 className="font-black uppercase tracking-widest text-sm">Vision</h4>
                       </div>
                       <p className="text-gray-500 text-sm leading-relaxed">
                         Bâtir une génération de champions pour la gloire de Dieu.
@@ -163,7 +153,7 @@ export default function Home() {
                       />
                    </div>
                    <div className="absolute -bottom-6 -left-6 bg-secondary p-8 rounded-[2rem] text-white shadow-2xl hidden md:block animate-bounce-slow">
-                      <p className="text-4xl font-black font-boldonse">20+</p>
+                      <p className="text-4xl font-black">20+</p>
                       <p className="text-xs font-bold uppercase tracking-widest">Ans d'impact</p>
                    </div>
                 </div>
@@ -176,7 +166,7 @@ export default function Home() {
             <div className="container mx-auto px-6">
               <div className="bg-white rounded-[3rem] p-8 md:p-16 border border-gray-100 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-sm">
                 <div className="max-w-xl">
-                  <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight font-boldonse uppercase">Vivre l'expérience <span className="text-primary">ICC</span> ce dimanche</h2>
+                  <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight uppercase">Vivre l'expérience <span className="text-primary">ICC</span> ce dimanche</h2>
                   <p className="text-gray-500 text-lg font-medium leading-relaxed mb-10">
                     Nous serions ravis de vous accueillir en personne. Nos cultes sont des moments de joie, de louange vibrante et d'enseignements pratiques.
                   </p>
@@ -186,7 +176,7 @@ export default function Home() {
                         <Clock size={24} />
                       </div>
                       <div>
-                        <h4 className="font-bold text-gray-900 font-boldonse uppercase text-sm tracking-widest">Horaires des Cultes</h4>
+                        <h4 className="font-bold text-gray-900 uppercase text-sm tracking-widest">Horaires des Cultes</h4>
                         <p className="text-gray-500">09h00 (Culte de Gloire) & 11h30 (Culte d'Impact)</p>
                       </div>
                     </div>
@@ -195,7 +185,7 @@ export default function Home() {
                         <MapPin size={24} />
                       </div>
                       <div>
-                        <h4 className="font-bold text-gray-900 font-boldonse uppercase text-sm tracking-widest">Adresse Locale</h4>
+                        <h4 className="font-bold text-gray-900 uppercase text-sm tracking-widest">Adresse Locale</h4>
                         <p className="text-gray-500">Consultez notre localisateur pour trouver le campus le plus proche.</p>
                       </div>
                     </div>
@@ -210,7 +200,7 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/20 transition-colors duration-500"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                     <span className="bg-white/90 backdrop-blur px-8 py-4 rounded-2xl font-black text-primary shadow-2xl scale-90 group-hover:scale-100 transition-transform font-boldonse uppercase tracking-widest text-xs">Voir l'itinéraire</span>
+                     <span className="bg-white/90 backdrop-blur px-8 py-4 rounded-2xl font-black text-primary shadow-2xl scale-90 group-hover:scale-100 transition-transform uppercase tracking-widest text-xs">Voir l'itinéraire</span>
                   </div>
                 </div>
               </div>
@@ -220,14 +210,14 @@ export default function Home() {
           {/* Section: Nos 3 Piliers */}
           <section className="py-24 bg-white">
             <div className="container mx-auto px-6 text-center">
-              <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-16 tracking-tighter font-boldonse uppercase leading-none">Pourquoi nous <span className="text-secondary italic">rejoindre</span> ?</h2>
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-16 tracking-tighter uppercase leading-none">Pourquoi nous <span className="text-secondary italic">rejoindre</span> ?</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500 group">
                   <div className="w-20 h-20 bg-blue-50 text-primary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-500">
                     <Users size={36} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 font-boldonse uppercase tracking-tight">Une Famille</h3>
-                  <p className="text-gray-500 font-medium leading-relaxed">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 uppercase tracking-tight">Une Famille</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed font-manrope">
                     À ICC, personne n'est un étranger. Vous intégrez une communauté qui vous aime, vous soutient et prie pour vous.
                   </p>
                 </div>
@@ -235,8 +225,8 @@ export default function Home() {
                   <div className="w-20 h-20 bg-amber-50 text-secondary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-secondary group-hover:text-white transition-all duration-500">
                     <Star size={36} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 font-boldonse uppercase tracking-tight">Une Vision</h3>
-                  <p className="text-gray-500 font-medium leading-relaxed">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 uppercase tracking-tight">Une Vision</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed font-manrope">
                     Nous croyons au potentiel illimité que Dieu a placé en vous. Nous vous aidons à le découvrir et à l'activer.
                   </p>
                 </div>
@@ -244,8 +234,8 @@ export default function Home() {
                   <div className="w-20 h-20 bg-green-50 text-green-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-green-600 group-hover:text-white transition-all duration-500">
                     <ShieldCheck size={36} />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 font-boldonse uppercase tracking-tight">Un Impact</h3>
-                  <p className="text-gray-500 font-medium leading-relaxed">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 uppercase tracking-tight">Un Impact</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed font-manrope">
                     Chaque vie transformée devient une lumière pour la société. Ensemble, nous bâtissons un monde meilleur.
                   </p>
                 </div>
@@ -262,7 +252,7 @@ export default function Home() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] -mr-48 -mt-48"></div>
           <div className="container mx-auto px-6 relative z-10">
             <div className="flex flex-col md:flex-row items-center justify-between mb-16">
-              <h2 className="text-4xl font-black tracking-tight mb-4 md:mb-0 font-boldonse uppercase">Explorez nos ressources</h2>
+              <h2 className="text-4xl font-black tracking-tight mb-4 md:mb-0 uppercase">Explorez nos ressources</h2>
               <Link href="/sermons" className="text-secondary font-bold flex items-center hover:translate-x-2 transition-transform">
                 Toutes les ressources <ArrowRight size={20} className="ml-2" />
               </Link>
@@ -271,22 +261,22 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
                 <Play size={32} className="text-secondary mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="text-xl font-bold mb-3 font-boldonse uppercase">Sermons Vidéo</h3>
-                <p className="text-gray-400 font-medium mb-6">Regardez nos messages inspirants où que vous soyez.</p>
+                <h3 className="text-xl font-bold mb-3 uppercase">Sermons Vidéo</h3>
+                <p className="text-gray-400 font-medium mb-6 font-manrope">Regardez nos messages inspirants où que vous soyez.</p>
                 <Link href="/sermons" className="inline-block bg-white text-slate-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest text-[10px]">Écouter</Link>
               </div>
 
               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
                 <Calendar size={32} className="text-primary-light mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="text-xl font-bold mb-3 font-boldonse uppercase">Agenda</h3>
-                <p className="text-gray-400 font-medium mb-6">Ne manquez aucun de nos événements spéciaux.</p>
+                <h3 className="text-xl font-bold mb-3 uppercase">Agenda</h3>
+                <p className="text-gray-400 font-medium mb-6 font-manrope">Ne manquez aucun de nos événements spéciaux.</p>
                 <Link href="/evenements" className="inline-block bg-white text-slate-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest text-[10px]">Voir</Link>
               </div>
 
               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
                 <Heart size={32} className="text-red-400 mb-6 group-hover:scale-110 transition-transform" />
-                <h3 className="text-xl font-bold mb-3 font-boldonse uppercase">Dons</h3>
-                <p className="text-gray-500 font-medium mb-6">Soutenez nos actions sociales et missionnaires.</p>
+                <h3 className="text-xl font-bold mb-3 uppercase">Dons</h3>
+                <p className="text-gray-500 font-medium mb-6 font-manrope">Soutenez nos actions sociales et missionnaires.</p>
                 <Link href="/dons" className="inline-block bg-white text-slate-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest text-[10px]">Contribuer</Link>
               </div>
             </div>
@@ -306,11 +296,11 @@ export default function Home() {
                   className="object-contain"
                 />
               </div>
-            <p className="text-gray-400 font-medium text-center uppercase tracking-[0.2em] text-[10px]">© 2024 Impact Centre Chrétien. Bâtir des champions.</p>
+            <p className="text-gray-400 font-medium text-center uppercase tracking-[0.2em] text-[10px] font-manrope">© 2024 Impact Centre Chrétien. Bâtir des champions.</p>
             <div className="flex space-x-6 text-gray-400 font-bold text-sm">
-              <Link href="#" className="hover:text-primary transition-colors">Facebook</Link>
-              <Link href="#" className="hover:text-primary transition-colors">Instagram</Link>
-              <Link href="#" className="hover:text-primary transition-colors">YouTube</Link>
+              <Link href="#" className="hover:text-primary transition-colors font-manrope">Facebook</Link>
+              <Link href="#" className="hover:text-primary transition-colors font-manrope">Instagram</Link>
+              <Link href="#" className="hover:text-primary transition-colors font-manrope">YouTube</Link>
             </div>
           </div>
         </div>

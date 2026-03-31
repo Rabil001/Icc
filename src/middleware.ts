@@ -11,8 +11,10 @@ export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // ON NE TENTE RIEN si l'URL n'est pas valide ou si c'est un placeholder
-  if (url && url.startsWith('https://') && !url.includes('votre-projet')) {
+  // ON NE TENTE RIEN si l'URL est un placeholder ou absente
+  const isInvalid = !url || url.includes('placeholder') || url.includes('votre-projet');
+
+  if (url && url.startsWith('https://') && !isInvalid) {
     try {
       const supabase = createServerClient(
         url,
@@ -46,7 +48,7 @@ export async function middleware(request: NextRequest) {
 
       await supabase.auth.getUser()
     } catch (e) {
-      // Silencieux en dev si pas de config
+      // Silencieux
     }
   }
 
