@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Play, Calendar, Heart, ArrowRight, User as UserIcon, LogOut, Settings, MapPin, Clock, Star, Users, ShieldCheck, Target, Eye } from "lucide-react";
+import { Play, Calendar, Heart, ArrowRight, User as UserIcon, LogOut, Settings, MapPin, Clock, Star, Users, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { IdentitySection } from "@/components/IdentitySection";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -29,16 +30,16 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col w-full animate-fade-in">
+    <div className="flex flex-col w-full animate-fade-in font-manrope">
       {/* SECTION DYNAMIQUE : HERO VISITEUR VS DASHBOARD MEMBRE */}
       {user ? (
         /* --- DASHBOARD POUR L'UTILISATEUR CONNECTÉ --- */
-        <section className="bg-white pt-32 pb-12">
+        <section className="bg-white pt-48 pb-12">
           <div className="container mx-auto px-6">
-            <div className="bg-surface-alt rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-gray-100">
+            <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-gray-100">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                  <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 uppercase">
+                  <h1 className="text-3xl md:text-4xl font-black text-gray-900 mb-2 uppercase tracking-tighter">
                     Heureux de vous revoir, <span className="text-primary">{user.user_metadata.full_name || "Frère/Sœur"}</span> !
                   </h1>
                   <p className="text-gray-500 font-medium text-lg">
@@ -86,10 +87,10 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        /* --- EXPERIENCE POUR LES VISITEURS --- */
+        /* --- EXPERIENCE POUR LES VISITEURS (STYLE VEO EXACT) --- */
         <>
-          {/* Hero Section Épurée */}
-          <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+          {/* Hero Section Immersive */}
+          <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
              <div className="absolute inset-0 z-0">
                 <Image
                   src="https://impactcentrechretien.com/wp-content/uploads/2024/01/404443524_729211509231327_6606326441194199131_n.jpeg"
@@ -98,31 +99,37 @@ export default function Home() {
                   className="object-cover"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60"></div>
+                {/* DARK MASK - Masque sombre uniforme et profond */}
+                <div className="absolute inset-0 bg-black/50 z-10"></div>
+                {/* Dégradé radial pour focus central */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
+              </div>
+
+              <div className="container mx-auto px-6 relative z-20 text-center mt-32 md:mt-48">
+                <div className="max-w-5xl mx-auto">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-10 drop-shadow-xl font-manrope">
+                    Évangéliser, restaurer et <br className="hidden md:block" /> enseigner les principes du Royaume
+                  </h1>
+
+                  <div className="flex flex-row items-center justify-center gap-4">
+                    <Link href="/dons" className="bg-black text-white px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold text-[13px] uppercase tracking-widest hover:bg-white hover:text-black transition-all active:scale-95 shadow-2xl border border-black hover:border-white">
+                      Faire un don
+                    </Link>
+                    <Link href="/evenements" className="bg-white text-black px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold text-[13px] uppercase tracking-widest hover:bg-black hover:text-white transition-all active:scale-95 shadow-2xl border border-white hover:border-black">
+                      Nos événements
+                    </Link>
+                  </div>
+                </div>
               </div>
           </section>
 
-          {/* SECTION IDENTITÉ - FOND COULEUR #e554fc AVEC EFFET GRAIN */}
-          <section className="py-32 bg-[#e554fc] bg-grain relative z-20">
-            <div className="container mx-auto px-6 max-w-6xl relative z-10 text-left">
-                <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter leading-none uppercase">
-                  Impact Centre <br /> Chrétien
-                </h2>
-                <p className="text-lg text-white/90 mb-12 leading-relaxed font-medium max-w-2xl">
-                  Plus qu'une église, une famille dédiée à la restauration des vies et à l'éveil des champions. Notre mission est d'évangéliser, de restaurer et d'enseigner les principes du Royaume pour bâtir une génération qui impacte positivement la société.
-                </p>
-
-                <Link href="/a-propos" className="inline-flex items-center space-x-3 bg-white text-[#e554fc] px-8 py-4 rounded-full font-black uppercase tracking-widest text-[9px] hover:bg-gray-100 transition-all shadow-md active:scale-95">
-                  <span>En savoir plus</span>
-                  <ArrowRight size={14} />
-                </Link>
-            </div>
-          </section>
+          {/* SECTION IDENTITÉ AVEC EFFET CANVAS REVEAL */}
+          <IdentitySection />
 
           {/* Section: Prochain Culte */}
           <section className="py-20 bg-white relative z-20">
             <div className="container mx-auto px-6">
-              <div className="bg-slate-900 rounded-[3.5rem] p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-2xl text-white overflow-hidden relative">
+              <div className="bg-slate-900 rounded-[3.5rem] p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-2xl text-white overflow-hidden relative border border-white/5">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"></div>
 
                 <div className="max-w-xl relative z-10 text-center lg:text-left">
@@ -173,7 +180,7 @@ export default function Home() {
             <div className="container mx-auto px-6 text-center">
               <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-16 tracking-tighter uppercase leading-none">Pourquoi nous <span className="text-secondary italic">rejoindre</span> ?</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="p-10 rounded-[3.5rem] bg-surface-alt hover:bg-white border border-transparent hover:border-gray-100 transition-all duration-500 group shadow-sm hover:shadow-xl">
+                <div className="p-10 rounded-[3.5rem] bg-slate-50 hover:bg-white border border-transparent hover:border-gray-100 transition-all duration-500 group shadow-sm hover:shadow-xl">
                   <div className="w-20 h-20 bg-blue-50 text-primary rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-500">
                     <Users size={36} />
                   </div>
@@ -182,7 +189,7 @@ export default function Home() {
                     À ICC, personne n'est un étranger. Vous intégrez une communauté qui vous aime et vous soutient.
                   </p>
                 </div>
-                <div className="p-10 rounded-[3.5rem] bg-surface-alt hover:bg-white border border-transparent hover:border-gray-100 transition-all duration-500 group shadow-sm hover:shadow-xl">
+                <div className="p-10 rounded-[3.5rem] bg-slate-50 hover:bg-white border border-transparent hover:border-gray-100 transition-all duration-500 group shadow-sm hover:shadow-xl">
                   <div className="w-20 h-20 bg-amber-50 text-secondary rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-secondary group-hover:text-white transition-all duration-500">
                     <Star size={36} />
                   </div>
@@ -191,7 +198,7 @@ export default function Home() {
                     Nous croyons au potentiel illimité que Dieu a placé en vous. Nous vous aidons à l'activer.
                   </p>
                 </div>
-                <div className="p-10 rounded-[3.5rem] bg-surface-alt hover:bg-white border border-transparent hover:border-gray-100 transition-all duration-500 group shadow-sm hover:shadow-xl">
+                <div className="p-10 rounded-[3.5rem] bg-slate-50 hover:bg-white border border-transparent hover:border-gray-100 transition-all duration-500 group shadow-sm hover:shadow-xl">
                   <div className="w-20 h-20 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-green-600 group-hover:text-white transition-all duration-500">
                     <ShieldCheck size={36} />
                   </div>
@@ -246,7 +253,7 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="py-20 border-t border-gray-100 bg-surface-alt">
+      <footer className="py-20 border-t border-gray-100 bg-slate-50">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
              <div className="relative w-12 h-12">
