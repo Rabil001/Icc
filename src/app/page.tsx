@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Play, Calendar, Heart, ArrowRight, User as UserIcon, LogOut, Settings } from "lucide-react";
+import { Play, Calendar, Heart, ArrowRight, User as UserIcon, LogOut, Settings, MapPin, Clock, Star, Users, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
@@ -67,24 +67,24 @@ export default function Home() {
 
               {/* Accès Rapides Membres */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-                <button className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-primary/10">
+                <Link href="/sermons" className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-primary/10">
                   <div className="w-12 h-12 bg-blue-50 text-primary rounded-2xl flex items-center justify-center mb-3">
                     <Play size={24} />
                   </div>
                   <span className="font-bold text-gray-700">Continuer</span>
-                </button>
-                <button className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-secondary/10">
+                </Link>
+                <Link href="/evenements" className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-secondary/10">
                   <div className="w-12 h-12 bg-amber-50 text-secondary rounded-2xl flex items-center justify-center mb-3">
                     <Calendar size={24} />
                   </div>
                   <span className="font-bold text-gray-700">Mes Événements</span>
-                </button>
-                <button className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-red-100">
+                </Link>
+                <Link href="/dons" className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-red-100">
                   <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-3">
                     <Heart size={24} />
                   </div>
                   <span className="font-bold text-gray-700">Dons</span>
-                </button>
+                </Link>
                 <button className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl shadow-sm hover:shadow-md transition-all active:scale-95 border border-transparent hover:border-green-100">
                   <div className="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-3">
                     <UserIcon size={24} />
@@ -96,120 +96,183 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        /* --- HERO SECTION POUR LES VISITEURS --- */
-        <section className="relative h-[85vh] w-full flex items-center justify-center overflow-hidden bg-slate-900">
-          <div className="absolute inset-0 z-0 opacity-60">
-            <div className="w-full h-full bg-gradient-to-br from-primary-dark to-slate-800 flex items-center justify-center text-white/10 text-[10vw] font-bold select-none rotate-12">
-              IMPACT CENTRE CHRÉTIEN
-            </div>
-          </div>
+        /* --- EXPERIENCE POUR LES VISITEURS --- */
+        <>
+          {/* Hero Section */}
+          <section className="relative h-[90vh] w-full flex items-center justify-center overflow-hidden bg-slate-900">
+             <div className="absolute inset-0 z-0 opacity-40">
+                <div className="w-full h-full bg-gradient-to-br from-primary-dark via-slate-900 to-black flex items-center justify-center text-white/5 text-[15vw] font-black select-none rotate-12 leading-none">
+                  IMPACT<br/>CENTRE<br/>CHRÉTIEN
+                </div>
+              </div>
 
-          <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-            <span className="bg-secondary text-white px-5 py-1.5 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-8 animate-fade-in shadow-lg shadow-secondary/20">
-              Bienvenue à la maison
-            </span>
-            <h1 className="text-5xl md:text-8xl font-black text-white mb-8 leading-[1.1] tracking-tighter">
-              Bâtir des vies <br />
-              <span className="text-secondary italic">pour la gloire</span> de Dieu
-            </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mb-12 font-medium leading-relaxed">
-              Découvrez une communauté dynamique où chaque membre est une famille.
-              Vivez l'impact et la transformation avec nous.
-            </p>
+            <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center">
+              <div className="inline-flex items-center space-x-2 bg-secondary text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-8 animate-fade-in shadow-xl shadow-secondary/20">
+                <Star size={14} className="fill-current" />
+                <span>Bienvenue à la maison</span>
+              </div>
+              <h1 className="text-5xl md:text-8xl font-black text-white mb-8 leading-[1.05] tracking-tighter">
+                Bâtir des vies <br />
+                <span className="text-secondary italic">pour la gloire</span> de Dieu
+              </h1>
+              <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-12 font-medium leading-relaxed">
+                Plus qu'une église, une famille. Découvrez une communauté dynamique où vous pouvez grandir, servir et impacter votre génération.
+              </p>
 
-            <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
-              <Link href="/inscription" className="bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-full font-bold text-lg transition-all flex items-center justify-center space-x-3 shadow-2xl shadow-primary/30 active:scale-95">
-                <span>Nous Rejoindre</span>
-                <ArrowRight size={22} />
-              </Link>
-              <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-full font-bold text-lg transition-all flex items-center justify-center space-x-3 active:scale-95">
-                <Play size={22} className="fill-current" />
-                <span>Dernier Message</span>
-              </button>
+              <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+                <Link href="/inscription" className="bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center space-x-3 shadow-2xl shadow-primary/30 active:scale-95">
+                  <span>Devenir Membre</span>
+                  <ArrowRight size={22} />
+                </Link>
+                <Link href="/sermons" className="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center space-x-3 active:scale-95">
+                  <Play size={22} className="fill-current" />
+                  <span>Dernier Message</span>
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/30 hidden md:block">
-            <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
-              <div className="w-1 h-2 bg-white/40 rounded-full"></div>
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/30 hidden md:block">
+              <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
+                <div className="w-1 h-2 bg-white/40 rounded-full"></div>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          {/* Section: Prochain Culte (Nouveau) */}
+          <section className="py-20 bg-white relative z-20">
+            <div className="container mx-auto px-6">
+              <div className="bg-surface-alt rounded-[3rem] p-8 md:p-16 border border-gray-100 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-sm">
+                <div className="max-w-xl">
+                  <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Vivre l'expérience <span className="text-primary">ICC</span> ce dimanche</h2>
+                  <p className="text-gray-500 text-lg font-medium leading-relaxed mb-10">
+                    Nous serions ravis de vous accueillir en personne. Nos cultes sont des moments de joie, de louange vibrante et d'enseignements pratiques.
+                  </p>
+                  <div className="space-y-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Clock size={24} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Horaires des Cultes</h4>
+                        <p className="text-gray-500">09h00 (Culte de Gloire) & 11h30 (Culte d'Impact)</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+                        <MapPin size={24} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">Adresse Locale</h4>
+                        <p className="text-gray-500">Consultez notre localisateur pour trouver le campus le plus proche.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full lg:w-1/3 aspect-square bg-slate-200 rounded-[2.5rem] overflow-hidden relative group">
+                  <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                     <span className="bg-white/90 backdrop-blur px-6 py-3 rounded-2xl font-bold text-primary shadow-xl">Voir l'itinéraire</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Section: Nos 3 Piliers (Storytelling) */}
+          <section className="py-24 bg-white">
+            <div className="container mx-auto px-6 text-center">
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-16 tracking-tighter">Pourquoi nous <span className="text-secondary italic">rejoindre</span> ?</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500">
+                  <div className="w-20 h-20 bg-blue-50 text-primary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm">
+                    <Users size={36} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Une Famille</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">
+                    À ICC, personne n'est un étranger. Vous intégrez une communauté qui vous aime, vous soutient et prie pour vous.
+                  </p>
+                </div>
+                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500">
+                  <div className="w-20 h-20 bg-amber-50 text-secondary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm">
+                    <Star size={36} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Une Vision</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">
+                    Nous croyons au potentiel illimité que Dieu a placé en vous. Nous vous aidons à le découvrir et à l'activer.
+                  </p>
+                </div>
+                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500">
+                  <div className="w-20 h-20 bg-green-50 text-green-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm">
+                    <ShieldCheck size={36} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Un Impact</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">
+                    Chaque vie transformée devient une lumière pour la société. Ensemble, nous bâtissons un monde meilleur.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
       )}
 
       {/* --- SECTIONS COMMUNES (Visible par tous ou ajustée) --- */}
 
       {/* Quick Access (Seulement pour les visiteurs ou sous une autre forme) */}
       {!user && (
-        <section className="py-20 bg-surface-alt">
-          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 -mt-32 relative z-20">
-              <div className="bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all group active:scale-[0.98] border border-gray-50">
-                <div className="w-16 h-16 bg-blue-50 text-primary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 rotate-3 group-hover:rotate-0">
-                  <Play size={32} />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800 tracking-tight">Nos Sermons</h3>
-                <p className="text-gray-500 mb-8 leading-relaxed font-medium">Accédez à tous nos messages inspirants en audio et vidéo, où que vous soyez.</p>
-                <div className="flex items-center text-primary font-bold group-hover:translate-x-2 transition-transform">
-                  Explorer <ArrowRight size={20} className="ml-2" />
-                </div>
+        <section className="py-20 bg-slate-900 text-white overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] -mr-48 -mt-48"></div>
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="flex flex-col md:flex-row items-center justify-between mb-16">
+              <h2 className="text-4xl font-black tracking-tight mb-4 md:mb-0">Explorez nos ressources</h2>
+              <Link href="/sermons" className="text-secondary font-bold flex items-center hover:translate-x-2 transition-transform">
+                Toutes les ressources <ArrowRight size={20} className="ml-2" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
+                <Play size={32} className="text-secondary mb-6 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-bold mb-3">Sermons Vidéo</h3>
+                <p className="text-gray-400 font-medium mb-6">Regardez nos messages inspirants où que vous soyez.</p>
+                <Link href="/sermons" className="inline-block bg-white text-slate-900 px-6 py-2 rounded-full text-sm font-bold">Écouter</Link>
               </div>
 
-              <div className="bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all group active:scale-[0.98] border border-gray-50">
-                <div className="w-16 h-16 bg-amber-50 text-secondary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:text-white transition-all duration-500 -rotate-3 group-hover:rotate-0">
-                  <Calendar size={32} />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800 tracking-tight">Événements</h3>
-                <p className="text-gray-500 mb-8 leading-relaxed font-medium">Restez informé de toutes les activités et cultes spéciaux de l'église.</p>
-                <div className="flex items-center text-secondary font-bold group-hover:translate-x-2 transition-transform">
-                  Voir le calendrier <ArrowRight size={20} className="ml-2" />
-                </div>
+              <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
+                <Calendar size={32} className="text-primary-light mb-6 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-bold mb-3">Agenda</h3>
+                <p className="text-gray-400 font-medium mb-6">Ne manquez aucun de nos événements spéciaux.</p>
+                <Link href="/evenements" className="inline-block bg-white text-slate-900 px-6 py-2 rounded-full text-sm font-bold">Voir</Link>
               </div>
 
-              <div className="bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all group active:scale-[0.98] border border-gray-50">
-                <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-red-500 group-hover:text-white transition-all duration-500 rotate-6 group-hover:rotate-0">
-                  <Heart size={32} />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800 tracking-tight">Faire un Don</h3>
-                <p className="text-gray-500 mb-8 leading-relaxed font-medium">Soutenez la mission de l'église localement et partout dans le monde.</p>
-                <div className="flex items-center text-red-500 font-bold group-hover:translate-x-2 transition-transform">
-                  Contribuer <ArrowRight size={20} className="ml-2" />
-                </div>
+              <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-[2.5rem] hover:bg-white/10 transition-all group">
+                <Heart size={32} className="text-red-400 mb-6 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-bold mb-3">Dons</h3>
+                <p className="text-gray-500 font-medium mb-6">Soutenez nos actions sociales et missionnaires.</p>
+                <Link href="/dons" className="inline-block bg-white text-slate-900 px-6 py-2 rounded-full text-sm font-bold">Contribuer</Link>
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* Actualités / Vision (Toujours pertinent) */}
-      <section className={user ? "py-12 bg-white" : "py-24 bg-white"}>
+      {/* Footer minimaliste pour l'instant */}
+      <footer className="py-20 border-t border-gray-100 bg-surface-alt">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center gap-16">
-            <div className="w-full md:w-1/2 aspect-square md:aspect-video bg-gray-100 rounded-[3rem] overflow-hidden flex items-center justify-center text-gray-400 relative group shadow-inner">
-               <span className="relative z-10 font-bold uppercase tracking-widest text-sm">[ Vidéo de Vision ]</span>
-               <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-xl">I</span>
+              </div>
+              <span className="font-bold text-2xl tracking-tighter text-primary">ICC</span>
             </div>
-            <div className="w-full md:w-1/2">
-              <h2 className="text-4xl md:text-5xl font-black mb-8 text-gray-900 leading-tight tracking-tighter">
-                Vivre la Foi au <br /> <span className="text-primary underline decoration-secondary/30">Quotidien</span> avec ICC
-              </h2>
-              <p className="text-lg text-gray-600 mb-10 leading-relaxed font-medium">
-                Notre mission est de bâtir une génération de champions, conscients de leur identité en Christ et prêts à impacter positivement la société.
-                <br /><br />
-                Rejoindre ICC, c'est intégrer une famille qui vous soutient dans votre marche spirituelle et vos projets de vie.
-              </p>
-              <button className="bg-gray-900 hover:bg-black text-white px-10 py-4 rounded-2xl font-bold transition-all shadow-lg active:scale-95">
-                Découvrir nos ministères
-              </button>
+            <p className="text-gray-400 font-medium">© 2024 Impact Centre Chrétien. Bâtir des champions.</p>
+            <div className="flex space-x-6 text-gray-400 font-bold text-sm">
+              <Link href="#" className="hover:text-primary">Facebook</Link>
+              <Link href="#" className="hover:text-primary">Instagram</Link>
+              <Link href="#" className="hover:text-primary">YouTube</Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Footer minimaliste pour l'instant */}
-      <footer className="py-12 border-t border-gray-100 bg-surface-alt">
-        <div className="container mx-auto px-6 text-center text-gray-400 font-medium">
-          <p>© 2024 Impact Centre Chrétien. Tous droits réservés.</p>
         </div>
       </footer>
     </div>

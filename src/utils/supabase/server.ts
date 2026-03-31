@@ -4,8 +4,9 @@ import { cookies } from 'next/headers'
 export function createClient() {
   const cookieStore = cookies()
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder';
+  // Valeurs par défaut ultra-sécurisées pour éviter le crash
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-project.supabase.co';
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
   return createServerClient(
     url,
@@ -18,12 +19,16 @@ export function createClient() {
         set(name: string, value: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value, ...options })
-          } catch (error) {}
+          } catch (error) {
+            // Géré par le middleware
+          }
         },
         remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: '', ...options })
-          } catch (error) {}
+          } catch (error) {
+            // Géré par le middleware
+          }
         },
       },
     }

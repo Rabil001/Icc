@@ -8,58 +8,46 @@ export async function middleware(request: NextRequest) {
     },
   })
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder';
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  const supabase = createServerClient(
-    url,
-    key,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
+  // ON NE TENTE RIEN si l'URL n'est pas valide ou si c'est un placeholder
+  if (url && url.startsWith('https://') && !url.includes('votre-projet')) {
+    try {
+      const supabase = createServerClient(
+        url,
+        key!,
+        {
+          cookies: {
+            get(name: string) {
+              return request.cookies.get(name)?.value
             },
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
+            set(name: string, value: string, options: CookieOptions) {
+              request.cookies.set({ name, value, ...options })
+              response = NextResponse.next({
+                request: {
+                  headers: request.headers,
+                },
+              })
+              response.cookies.set({ name, value, ...options })
             },
-          })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-        },
-      },
+            remove(name: string, options: CookieOptions) {
+              request.cookies.set({ name, value: '', ...options })
+              response = NextResponse.next({
+                request: {
+                  headers: request.headers,
+                },
+              })
+              response.cookies.set({ name, value: '', ...options })
+            },
+          },
+        }
+      )
+
+      await supabase.auth.getUser()
+    } catch (e) {
+      // Silencieux en dev si pas de config
     }
-  )
-
-  // On ne tente pas de récupérer l'utilisateur si on est avec des placeholders (pendant le build)
-  if (url !== 'https://placeholder.supabase.co') {
-    await supabase.auth.getUser()
   }
 
   return response
@@ -67,13 +55,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
