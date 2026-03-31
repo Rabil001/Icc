@@ -99,9 +99,9 @@ export default function Home() {
       ) : (
         /* --- EXPERIENCE POUR LES VISITEURS --- */
         <>
-          {/* Hero Section avec Image de Fond Plein Écran */}
+          {/* Hero Section - Image Seule sans aucun élément interactif */}
           <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-             {/* Image de fond avec Overlay */}
+             {/* Image de fond avec Overlay subtil */}
              <div className="absolute inset-0 z-0">
                 <Image
                   src="https://impactcentrechretien.com/wp-content/uploads/2024/01/404443524_729211509231327_6606326441194199131_n.jpeg"
@@ -110,40 +110,8 @@ export default function Home() {
                   className="object-cover"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60"></div>
               </div>
-
-            <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center mt-12">
-              <div className="inline-flex items-center space-x-2 bg-secondary text-white px-5 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-8 animate-fade-in shadow-2xl shadow-secondary/30">
-                <Star size={14} className="fill-current" />
-                <span>Bienvenue à la maison</span>
-              </div>
-              <h1 className="text-5xl md:text-8xl font-black text-white mb-8 leading-[1.05] tracking-tighter">
-                Bâtir des vies <br />
-                <span className="text-secondary italic">pour la gloire</span> de Dieu
-              </h1>
-              <p className="text-lg md:text-xl text-gray-200 max-w-2xl mb-12 font-medium leading-relaxed drop-shadow-lg">
-                Plus qu'une église, une famille. Découvrez une communauté dynamique où vous pouvez grandir, servir et impacter votre génération.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
-                <Link href="/inscription" className="bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center space-x-3 shadow-2xl shadow-primary/40 active:scale-95">
-                  <span>Devenir Membre</span>
-                  <ArrowRight size={22} />
-                </Link>
-                <Link href="/sermons" className="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center space-x-3 active:scale-95">
-                  <Play size={22} className="fill-current" />
-                  <span>Dernier Message</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Indicateur de Scroll */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/50 hidden md:block">
-              <div className="w-8 h-12 border-2 border-white/30 rounded-full flex justify-center pt-2">
-                <div className="w-1.5 h-3 bg-white/60 rounded-full"></div>
-              </div>
-            </div>
           </section>
 
           {/* Section: Prochain Culte */}

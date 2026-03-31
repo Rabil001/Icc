@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, User, Bell, ArrowRight } from "lucide-react";
+import { Menu, X, User, ArrowRight } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { createClient } from "@/utils/supabase/client";
+import { User as SupabaseUser } from "@supabase/supabase-js";
 
 // Utility for tailwind classes
 function cn(...inputs: ClassValue[]) {
@@ -14,6 +16,22 @@ function cn(...inputs: ClassValue[]) {
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
 
   const navLinks = [
     { name: "Accueil", href: "/" },
@@ -25,14 +43,14 @@ export default function Header() {
   return (
     <header className="absolute top-0 left-0 right-0 z-50 bg-transparent py-6">
       <div className="container mx-auto px-6 flex justify-between items-center">
-        {/* Logo Original (Couleurs d'origine) */}
+        {/* Logo Original */}
         <Link href="/" className="relative hover:scale-105 active:scale-95 transition-transform">
           <div className="relative w-16 h-16">
             <Image
               src="https://impactcentrechretien.com/wp-content/uploads/2021/03/LOGO-GRIS.png"
               alt="ICC Logo"
               fill
-              className="object-contain" // Retrait du filtre pour garder les couleurs originales
+              className="object-contain"
               priority
             />
           </div>
@@ -49,23 +67,18 @@ export default function Header() {
               {link.name}
             </Link>
           ))}
-          <button className="p-2 text-white hover:bg-white/10 rounded-full transition-colors">
-            <Bell size={22} />
-          </button>
+
           <Link
-            href="/connexion"
+            href={user ? "/profil" : "/connexion"}
             className="flex items-center space-x-2 bg-white text-primary px-8 py-3 rounded-full font-black text-xs uppercase tracking-widest hover:bg-gray-100 transition-all shadow-xl active:scale-95"
           >
             <User size={18} />
-            <span>Connexion</span>
+            <span>{user ? "Mon Compte" : "Connexion"}</span>
           </Link>
         </nav>
 
         {/* Mobile Nav Toggle */}
-        <div className="md:hidden flex items-center space-x-4">
-           <button className="p-2 text-white">
-            <Bell size={24} />
-          </button>
+        <div className="md:hidden flex items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 text-white transition-colors"
@@ -109,12 +122,12 @@ export default function Header() {
           ))}
           <div className="pt-10 border-t border-white/10 mt-auto">
             <Link
-              href="/connexion"
+              href={user ? "/profil" : "/connexion"}
               onClick={() => setIsOpen(false)}
               className="flex items-center justify-center space-x-3 bg-secondary text-white p-6 rounded-[2rem] font-black text-xl shadow-2xl shadow-secondary/20 uppercase tracking-widest"
             >
               <User size={28} />
-              <span>Mon Espace</span>
+              <span>{user ? "Mon Espace" : "Se connecter"}</span>
             </Link>
           </div>
         </nav>
