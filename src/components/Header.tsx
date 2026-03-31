@@ -3,10 +3,28 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { X, User, Menu, Globe } from "lucide-react";
+import { X, User, Globe } from "lucide-react";
 import { cn } from "@/utils/cn";
 import { createClient } from "@/utils/supabase/client";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+
+// Custom 2-line menu icon
+const MenuTwoLines = ({ className }: { className?: string }) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <line x1="4" y1="8" x2="20" y2="8" />
+    <line x1="10" y1="16" x2="20" y2="16" />
+  </svg>
+);
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,22 +56,14 @@ export default function Header() {
       {/* --- SCROLLABLE NAVBAR (ABSOLUTE) --- */}
       <header className="absolute top-10 left-0 right-0 z-50 px-4 md:px-8">
         <div className={cn(
-          "container mx-auto max-w-7xl bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-full py-2.5 px-5 md:px-8 flex justify-between items-center shadow-2xl transition-all duration-300"
+          "container mx-auto max-w-7xl bg-white/10 backdrop-blur-xl border border-white/10 rounded-full py-2 px-5 md:px-8 flex justify-between items-center shadow-2xl transition-all duration-300"
         )}>
 
           {/* --- MOBILE LAYOUT --- */}
           <div className="flex lg:hidden w-full items-center justify-between">
-            {/* Left: Menu Toggle */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-white/90 hover:text-white transition-colors"
-            >
-              <Menu size={24} strokeWidth={2.5} />
-            </button>
-
-            {/* Center: Logo Only (Original Colors) */}
-            <Link href="/" className="absolute left-1/2 -translate-x-1/2 flex items-center">
-              <div className="relative w-32 h-8">
+            {/* Left: Enlarged Logo */}
+            <Link href="/" className="flex items-center">
+              <div className="relative w-36 h-10">
                 <Image
                   src="https://impactcentrechretien.com/wp-content/uploads/2021/03/LOGO-GRIS.png"
                   alt="ICC Logo"
@@ -64,14 +74,16 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* Right: Globe */}
-            <button className="p-2 text-white/90 hover:text-white transition-colors">
-              <Globe size={24} strokeWidth={2} />
+            {/* Right: Menu Toggle (2 Lines) */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 text-white/90 hover:text-white transition-colors"
+            >
+              <MenuTwoLines className="w-7 h-7" />
             </button>
           </div>
 
           {/* --- DESKTOP LAYOUT --- */}
-          {/* Logo Only (Desktop - Original Colors) */}
           <div className="hidden lg:flex items-center space-x-10">
             <Link href="/" className="relative flex items-center group">
                <div className="relative w-28 h-10 transition-transform group-hover:scale-105">
@@ -98,7 +110,6 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Actions (Desktop) */}
           <div className="hidden lg:flex items-center space-x-8">
             <Link href="/connexion" className="flex items-center space-x-2 text-[13px] font-bold text-white/80 hover:text-white transition-colors">
               <User size={18} />
@@ -118,7 +129,7 @@ export default function Header() {
         {isOpen && (
           <div className="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[110] p-10 flex flex-col animate-in fade-in slide-in-from-top duration-500">
             <div className="flex justify-between items-center mb-16">
-               <div className="relative w-32 h-10">
+               <div className="relative w-40 h-12">
                   <Image src="https://impactcentrechretien.com/wp-content/uploads/2021/03/LOGO-GRIS.png" alt="ICC" fill className="object-contain" />
                </div>
                <button onClick={() => setIsOpen(false)} className="text-white"><X size={36} /></button>

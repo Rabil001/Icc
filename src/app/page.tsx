@@ -7,6 +7,7 @@ import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { IdentitySection } from "@/components/IdentitySection";
+import { ChurchVideo } from "@/components/ChurchVideo";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -87,11 +88,11 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        /* --- EXPERIENCE POUR LES VISITEURS (STYLE VEO EXACT) --- */
+        /* --- EXPERIENCE POUR LES VISITEURS --- */
         <>
-          {/* Hero Section Immersive */}
-          <section className="relative h-screen w-full flex flex-col items-center justify-end pb-32 md:pb-40 overflow-hidden">
-             <div className="absolute inset-0 z-0">
+          {/* Hero Section */}
+          <section className="relative h-[90vh] w-full flex flex-col items-center overflow-visible">
+             <div className="absolute inset-0 z-0 overflow-hidden">
                 <Image
                   src="https://impactcentrechretien.com/wp-content/uploads/2024/01/404443524_729211509231327_6606326441194199131_n.jpeg"
                   alt="ICC Hero Background"
@@ -99,20 +100,24 @@ export default function Home() {
                   className="object-cover"
                   priority
                 />
-                {/* DARK MASK */}
                 <div className="absolute inset-0 bg-black/50 z-10"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 z-10"></div>
               </div>
 
-              <div className="container mx-auto px-5 relative z-20 text-center">
+              {/* H1 : Very Low, near the bottom edge */}
+              <div className="container mx-auto px-5 relative z-30 text-center flex flex-col h-full justify-end pb-32 md:pb-40">
                 <div className="max-w-4xl mx-auto">
-                  {/* H1 : Thin, Light & Reduced Size */}
-                  <h1 className="text-[28px] md:text-4xl lg:text-5xl font-extralight text-white leading-[1.2] tracking-wider mb-0 drop-shadow-xl font-manrope opacity-90">
+                  <h1 className="text-[28px] md:text-4xl lg:text-5xl font-light text-white leading-[1.2] tracking-wider drop-shadow-xl font-manrope opacity-90">
                     Évangéliser, restaurer et <br className="hidden md:block" /> enseigner les principes du Royaume
                   </h1>
                 </div>
               </div>
           </section>
+
+          {/* ChurchVideo outside Hero with negative margin to peek in */}
+          <div className="relative z-50 -mt-20 md:-mt-28 mb-32 md:mb-40">
+            <ChurchVideo />
+          </div>
 
           {/* SECTION IDENTITÉ AVEC EFFET CANVAS REVEAL */}
           <IdentitySection />
