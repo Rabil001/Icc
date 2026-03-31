@@ -90,7 +90,7 @@ export default function Home() {
         /* --- EXPERIENCE POUR LES VISITEURS (STYLE VEO EXACT) --- */
         <>
           {/* Hero Section Immersive */}
-          <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+          <section className="relative h-screen w-full flex flex-col items-center justify-end pb-32 md:pb-40 overflow-hidden">
              <div className="absolute inset-0 z-0">
                 <Image
                   src="https://impactcentrechretien.com/wp-content/uploads/2024/01/404443524_729211509231327_6606326441194199131_n.jpeg"
@@ -99,26 +99,17 @@ export default function Home() {
                   className="object-cover"
                   priority
                 />
-                {/* DARK MASK - Masque sombre uniforme et profond */}
+                {/* DARK MASK */}
                 <div className="absolute inset-0 bg-black/50 z-10"></div>
-                {/* Dégradé radial pour focus central */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 z-10"></div>
               </div>
 
-              <div className="container mx-auto px-6 relative z-20 text-center mt-32 md:mt-48">
-                <div className="max-w-5xl mx-auto">
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight mb-10 drop-shadow-xl font-manrope">
+              <div className="container mx-auto px-5 relative z-20 text-center">
+                <div className="max-w-4xl mx-auto">
+                  {/* H1 : Thin, Light & Reduced Size */}
+                  <h1 className="text-[28px] md:text-4xl lg:text-5xl font-extralight text-white leading-[1.2] tracking-wider mb-0 drop-shadow-xl font-manrope opacity-90">
                     Évangéliser, restaurer et <br className="hidden md:block" /> enseigner les principes du Royaume
                   </h1>
-
-                  <div className="flex flex-row items-center justify-center gap-4">
-                    <Link href="/dons" className="bg-black text-white px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold text-[13px] uppercase tracking-widest hover:bg-white hover:text-black transition-all active:scale-95 shadow-2xl border border-black hover:border-white">
-                      Faire un don
-                    </Link>
-                    <Link href="/evenements" className="bg-white text-black px-8 md:px-10 py-3.5 md:py-4 rounded-full font-bold text-[13px] uppercase tracking-widest hover:bg-black hover:text-white transition-all active:scale-95 shadow-2xl border border-white hover:border-black">
-                      Nos événements
-                    </Link>
-                  </div>
                 </div>
               </div>
           </section>
