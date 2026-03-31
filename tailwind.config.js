@@ -10,7 +10,7 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-manrope)", "var(--font-inter)", "sans-serif"],
         manrope: ["var(--font-manrope)", "sans-serif"],
-        anton: ["var(--font-anton)", "sans-serif"],
+        abril: ["var(--font-abril)", "serif"],
       },
       colors: {
         primary: {
