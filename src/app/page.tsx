@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Play, Calendar, Heart, ArrowRight, User as UserIcon, LogOut, Settings, MapPin, Clock, Star, Users, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
@@ -98,16 +99,22 @@ export default function Home() {
       ) : (
         /* --- EXPERIENCE POUR LES VISITEURS --- */
         <>
-          {/* Hero Section */}
-          <section className="relative h-[90vh] w-full flex items-center justify-center overflow-hidden bg-slate-900">
-             <div className="absolute inset-0 z-0 opacity-40">
-                <div className="w-full h-full bg-gradient-to-br from-primary-dark via-slate-900 to-black flex items-center justify-center text-white/5 text-[15vw] font-black select-none rotate-12 leading-none">
-                  IMPACT<br/>CENTRE<br/>CHRÉTIEN
-                </div>
+          {/* Hero Section avec Image de Fond Plein Écran */}
+          <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+             {/* Image de fond avec Overlay */}
+             <div className="absolute inset-0 z-0">
+                <Image
+                  src="https://impactcentrechretien.com/wp-content/uploads/2024/01/404443524_729211509231327_6606326441194199131_n.jpeg"
+                  alt="ICC Hero Background"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80"></div>
               </div>
 
-            <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-              <div className="inline-flex items-center space-x-2 bg-secondary text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-8 animate-fade-in shadow-xl shadow-secondary/20">
+            <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center mt-12">
+              <div className="inline-flex items-center space-x-2 bg-secondary text-white px-5 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-8 animate-fade-in shadow-2xl shadow-secondary/30">
                 <Star size={14} className="fill-current" />
                 <span>Bienvenue à la maison</span>
               </div>
@@ -115,12 +122,12 @@ export default function Home() {
                 Bâtir des vies <br />
                 <span className="text-secondary italic">pour la gloire</span> de Dieu
               </h1>
-              <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-12 font-medium leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-200 max-w-2xl mb-12 font-medium leading-relaxed drop-shadow-lg">
                 Plus qu'une église, une famille. Découvrez une communauté dynamique où vous pouvez grandir, servir et impacter votre génération.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
-                <Link href="/inscription" className="bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center space-x-3 shadow-2xl shadow-primary/30 active:scale-95">
+                <Link href="/inscription" className="bg-primary hover:bg-primary-dark text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center space-x-3 shadow-2xl shadow-primary/40 active:scale-95">
                   <span>Devenir Membre</span>
                   <ArrowRight size={22} />
                 </Link>
@@ -131,14 +138,15 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/30 hidden md:block">
-              <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
-                <div className="w-1 h-2 bg-white/40 rounded-full"></div>
+            {/* Indicateur de Scroll */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/50 hidden md:block">
+              <div className="w-8 h-12 border-2 border-white/30 rounded-full flex justify-center pt-2">
+                <div className="w-1.5 h-3 bg-white/60 rounded-full"></div>
               </div>
             </div>
           </section>
 
-          {/* Section: Prochain Culte (Nouveau) */}
+          {/* Section: Prochain Culte */}
           <section className="py-20 bg-white relative z-20">
             <div className="container mx-auto px-6">
               <div className="bg-surface-alt rounded-[3rem] p-8 md:p-16 border border-gray-100 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-sm">
@@ -169,22 +177,28 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-full lg:w-1/3 aspect-square bg-slate-200 rounded-[2.5rem] overflow-hidden relative group">
-                  <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                   <Image
+                    src="https://impactcentrechretien.com/wp-content/uploads/2024/01/404443524_729211509231327_6606326441194199131_n.jpeg"
+                    alt="Itinéraire"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/20 transition-colors duration-500"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                     <span className="bg-white/90 backdrop-blur px-6 py-3 rounded-2xl font-bold text-primary shadow-xl">Voir l'itinéraire</span>
+                     <span className="bg-white/90 backdrop-blur px-8 py-4 rounded-2xl font-black text-primary shadow-2xl scale-90 group-hover:scale-100 transition-transform">Voir l'itinéraire</span>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Section: Nos 3 Piliers (Storytelling) */}
+          {/* Section: Nos 3 Piliers */}
           <section className="py-24 bg-white">
             <div className="container mx-auto px-6 text-center">
               <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-16 tracking-tighter">Pourquoi nous <span className="text-secondary italic">rejoindre</span> ?</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500">
-                  <div className="w-20 h-20 bg-blue-50 text-primary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm">
+                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500 group">
+                  <div className="w-20 h-20 bg-blue-50 text-primary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-500">
                     <Users size={36} />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Une Famille</h3>
@@ -192,8 +206,8 @@ export default function Home() {
                     À ICC, personne n'est un étranger. Vous intégrez une communauté qui vous aime, vous soutient et prie pour vous.
                   </p>
                 </div>
-                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500">
-                  <div className="w-20 h-20 bg-amber-50 text-secondary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm">
+                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500 group">
+                  <div className="w-20 h-20 bg-amber-50 text-secondary rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-secondary group-hover:text-white transition-all duration-500">
                     <Star size={36} />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Une Vision</h3>
@@ -201,8 +215,8 @@ export default function Home() {
                     Nous croyons au potentiel illimité que Dieu a placé en vous. Nous vous aidons à le découvrir et à l'activer.
                   </p>
                 </div>
-                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500">
-                  <div className="w-20 h-20 bg-green-50 text-green-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm">
+                <div className="p-10 rounded-[3rem] hover:bg-surface-alt transition-colors duration-500 group">
+                  <div className="w-20 h-20 bg-green-50 text-green-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-8 shadow-sm group-hover:bg-green-600 group-hover:text-white transition-all duration-500">
                     <ShieldCheck size={36} />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Un Impact</h3>
@@ -216,9 +230,8 @@ export default function Home() {
         </>
       )}
 
-      {/* --- SECTIONS COMMUNES (Visible par tous ou ajustée) --- */}
+      {/* --- SECTIONS COMMUNES --- */}
 
-      {/* Quick Access (Seulement pour les visiteurs ou sous une autre forme) */}
       {!user && (
         <section className="py-20 bg-slate-900 text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] -mr-48 -mt-48"></div>
@@ -256,21 +269,23 @@ export default function Home() {
         </section>
       )}
 
-      {/* Footer minimaliste pour l'instant */}
+      {/* Footer */}
       <footer className="py-20 border-t border-gray-100 bg-surface-alt">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-xl">I</span>
+             <div className="relative w-12 h-12">
+                <Image
+                  src="https://impactcentrechretien.com/wp-content/uploads/2021/03/LOGO-GRIS.png"
+                  alt="ICC Logo"
+                  fill
+                  className="object-contain"
+                />
               </div>
-              <span className="font-bold text-2xl tracking-tighter text-primary">ICC</span>
-            </div>
-            <p className="text-gray-400 font-medium">© 2024 Impact Centre Chrétien. Bâtir des champions.</p>
+            <p className="text-gray-400 font-medium text-center">© 2024 Impact Centre Chrétien. Bâtir des champions.</p>
             <div className="flex space-x-6 text-gray-400 font-bold text-sm">
-              <Link href="#" className="hover:text-primary">Facebook</Link>
-              <Link href="#" className="hover:text-primary">Instagram</Link>
-              <Link href="#" className="hover:text-primary">YouTube</Link>
+              <Link href="#" className="hover:text-primary transition-colors">Facebook</Link>
+              <Link href="#" className="hover:text-primary transition-colors">Instagram</Link>
+              <Link href="#" className="hover:text-primary transition-colors">YouTube</Link>
             </div>
           </div>
         </div>

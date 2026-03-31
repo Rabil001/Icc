@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
         <Header />
-        <main className="min-h-screen pt-16 bg-white overflow-x-hidden">
+        <main className="min-h-screen bg-white overflow-x-hidden">
           {children}
         </main>
       </body>

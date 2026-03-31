@@ -1,7 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuration pour Next.js 14
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'impactcentrechretien.com',
+        pathname: '**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
