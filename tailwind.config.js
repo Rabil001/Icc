@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        boldonse: ['Boldonse', 'system-ui'],
+        squada: ['"Squada One"', 'sans-serif'],
+      },
       colors: {
         primary: {
           DEFAULT: "#1e3a8a",

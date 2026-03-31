@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, User, ArrowRight } from "lucide-react";
+import { X, User, ArrowRight } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { createClient } from "@/utils/supabase/client";
@@ -13,6 +13,24 @@ import { User as SupabaseUser } from "@supabase/supabase-js";
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+// Composant Custom Menu à 2 lignes (Design Minimaliste)
+const MenuTwoLines = ({ className }: { className?: string }) => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <line x1="4" y1="8" x2="20" y2="8" />
+    <line x1="4" y1="16" x2="14" y2="16" />
+  </svg>
+);
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,13 +95,13 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Mobile Nav Toggle */}
+        {/* Mobile Nav Toggle - Menu 2 Lignes */}
         <div className="md:hidden flex items-center">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 text-white transition-colors"
           >
-            {isOpen ? <X size={32} /> : <Menu size={32} />}
+            {isOpen ? <X size={32} /> : <MenuTwoLines className="text-white" />}
           </button>
         </div>
       </div>
@@ -114,7 +132,7 @@ export default function Header() {
               key={link.name}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="text-4xl font-black text-white flex items-center justify-between group"
+              className="text-4xl font-black text-white flex items-center justify-between group font-boldonse"
             >
               <span className="uppercase tracking-tighter">{link.name}</span>
               <ArrowRight size={32} className="text-secondary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />

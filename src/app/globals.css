@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* LA POLICE DARKER GROTESQUE EST CHARGÉE VIA GOOGLE FONTS DANS LE LAYOUT */
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -22,10 +24,33 @@ body {
   min-height: 100vh;
 }
 
+/* Application globale de Darker Grotesque aux titres */
+h1, h2, h3, h4, .font-darker {
+  font-family: "Darker Grotesque", sans-serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+  line-height: 1.1 !important;
+}
+
 /* Custom styles for the "Modern & Dynamic" feel */
 .glass-effect {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(-5%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
 }
