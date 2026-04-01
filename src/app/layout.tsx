@@ -1,11 +1,13 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Inter, Manrope, Abril_Fatface } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
-const abril = Abril_Fatface({ weight: "400", subsets: ["latin"], variable: "--font-abril" });
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  weight: ["200", "300", "400", "500", "600", "700", "800"]
+});
 
 export const metadata: Metadata = {
   title: "ICC - Bienvenue dans notre communauté",
@@ -26,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${manrope.variable} ${abril.variable}`}>
-      <body className="font-sans">
+    <html lang="fr" className={`${jakarta.variable}`}>
+      <body className="font-sans antialiased">
         <Header />
         <main className="min-h-screen bg-white overflow-x-hidden">
           {children}
