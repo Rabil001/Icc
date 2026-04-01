@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import AuthWrapper from "@/components/AuthWrapper";
 import { Mail, Lock, LogIn, ChevronRight, Loader2 } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
+import { auth } from "@/utils/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClient();
 
   const message = searchParams.get("message");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,17 +31,15 @@ function LoginForm() {
     setError(null);
 
     try {
-      const { error: loginError } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      if (loginError) throw loginError;
-
-      router.push("/");
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      router.push("/profil");
       router.refresh();
     } catch (err: any) {
-      setError(err.message || "Identifiants invalides");
+      if (err.code === "auth/invalid-credential") {
+        setError("Email ou mot de passe incorrect");
+      } else {
+        setError(err.message || "Identifiants invalides");
+      }
     } finally {
       setIsLoading(false);
     }

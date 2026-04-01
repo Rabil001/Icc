@@ -5,8 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { X, User } from "lucide-react";
 import { cn } from "@/utils/cn";
-import { createClient } from "@/utils/supabase/client";
-import { User as SupabaseUser } from "@supabase/supabase-js";
+import { auth } from "@/utils/firebase";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 
 // Custom 2-line menu icon
 const MenuTwoLines = ({ className }: { className?: string }) => (
@@ -28,15 +28,13 @@ const MenuTwoLines = ({ className }: { className?: string }) => (
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const supabase = createClient();
+  const [user, setUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    };
-    checkUser();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
   }, []);
 
   const navLinks = [
@@ -112,7 +110,7 @@ export default function Header() {
           </div>
 
           <div className="hidden lg:flex items-center space-x-8">
-            <Link href="/connexion" className="flex items-center space-x-2 text-[13px] font-bold text-white/80 hover:text-white transition-colors">
+            <Link href={user ? "/profil" : "/connexion"} className="flex items-center space-x-2 text-[13px] font-bold text-white/80 hover:text-white transition-colors">
               <User size={18} />
               <span>{user ? "Mon Compte" : "Connexion"}</span>
             </Link>
@@ -142,7 +140,7 @@ export default function Header() {
             </nav>
             <div className="mt-auto flex flex-col space-y-4">
                <Link href="/inscription" onClick={() => setIsOpen(false)} className="bg-white text-black py-5 rounded-2xl text-center font-black uppercase tracking-widest">S'inscrire</Link>
-               <Link href="/connexion" onClick={() => setIsOpen(false)} className="border border-white/20 text-white py-5 rounded-2xl text-center font-bold uppercase tracking-widest">Connexion</Link>
+               <Link href={user ? "/profil" : "/connexion"} onClick={() => setIsOpen(false)} className="border border-white/20 text-white py-5 rounded-2xl text-center font-bold uppercase tracking-widest">{user ? "Mon Compte" : "Connexion"}</Link>
             </div>
           </div>
         )}
